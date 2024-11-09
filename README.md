@@ -1,4 +1,4 @@
-# VS Empty Solution Template
+# Visual Studio Empty Solution Template
 
 This repository template creates an empty Visual Studio solution.
 
