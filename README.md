@@ -1,14 +1,14 @@
-# Visual Studio Empty Solution Template
+# Visual Studio Solution Template
 
-This repository template creates an empty Visual Studio solution.
+When I am spinning up new repos on GitHub, I prefer to have an empty solution in the root folder.  If I create one as part of the initialization, it makes my life easier.  I like easier.
 
-## How to Use
-
-1. Go to GitHub and create a new repository using this template[Create a Git repository from Visual Studio - learn.microsoft.com](https://learn.microsoft.com/en-us/visualstudio/version-control/git-create-repository?view=vs-2022).
+## Usage 
+1. Create a new repository using this template.
 2. Clone the repository to your local machine.
-3. Open the solution file (`MyEmptySolution.sln`) in Visual Studio[Visual Studio: How to create Blank or Empty Solution](https://www.howtosolutions.net/2021/11/visual-studio-template-find-and-create-blank-or-empty-solution/).
-4. Add new projects or files as needed.
+3. Update the SolutionGuid value to a new GUID in a text editor.  
+4. Open the solution file (`Empty.sln`) in Visual Studio
+6. Add new projects or files as needed.
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+## References
+- [learn.microsoft.com](https://learn.microsoft.com/en-us/visualstudio/extensibility/internals/solution-dot-sln-file?view=vs-2022)
+- [GuidGenerator.com](https://guidgenerator.com/)
