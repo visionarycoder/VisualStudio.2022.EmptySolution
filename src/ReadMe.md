@@ -1,3 +1,1 @@
-# /src	
-
-Place your Visual Studio projects in this folder.
+# Place your projects in this folder.
