@@ -1,4 +1,4 @@
-# GitHub Copilot Instructions for Blazor Web Applications and Desktop Development
+# GitHub Copilot Instructions 
 
 ## Technology Preferences
 
@@ -22,7 +22,7 @@
         }
     }
     ```
-
+      
 ### Language and Framework
 - Use C# for both client-side and server-side code.
 - Target .NET 8 (or the latest stable release) for all projects.
@@ -66,6 +66,7 @@
     ```
 
 ### Styling
+
 - Use CSS for styling components. Prefer using CSS isolation to scope styles to specific components.
     ```css
     /* MyComponent.razor.css */
@@ -77,6 +78,7 @@
     ```
 
 ### State Management
+
 - Use built-in Blazor state management for simple state scenarios. For more complex scenarios, consider using a library like `Blazored.LocalStorage`.
     ```csharp
     @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -95,6 +97,7 @@
     ```
 
 ### Routing
+
 - Use the built-in Blazor router for navigation between pages.
     ```csharp
     @page "/fetchdata"
@@ -141,6 +144,7 @@
     ```
 
 ### Dependency Injection
+
 - Use ASP.NET Core's built-in dependency injection for services.
     ```csharp
     public void ConfigureServices(IServiceCollection services)
@@ -232,14 +236,18 @@
 ### Setup
 - Use a standard project structure with a separate folder for integration tests.
     ```
-    - MyProject/
+    - Solution/
       - src/
+        - Project A/
+        - Project B/ 
       - tests/
         - IntegrationTests/
+        - UnitTests 
     ```
 
 ### Tools and Frameworks
-- Use xUnit for writing integration tests.
+- Prefer xUnit for writing unit tests in C#
+- Use Moq for mocking dependencies in tests
 - Use an in-memory database like SQLite for testing to avoid side effects on the production database.
     ```csharp
     using Xunit;
@@ -323,10 +331,36 @@
     ```
 
 ### Project Structure for Desktop Applications
+
 - Use a standard project structure with separate folders for `Views`, `ViewModels`, and `Models`
+
+## Console Application Development
+  - Prefer using DI with Host Builder to configure services and run the application.
+    ```csharp
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var host = Host.CreateDefaultBuilder(args)
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddHostedService<Worker>();
+                })
+                .Build();
+            host.Run();
+        }
+    }
+    ```
+- Always use Volatility-Based Decomposition (VBD) to structure the application for scalability and maintainability.
+- Use the `Microsoft.Extensions.Configuration` package for configuration management.
+- Use the `Microsoft.Extensions.DependencyInjection` package for dependency injection.`
+- Use the `Microsoft.Extensions.Hosting` package for building console applications.
+- Use the `Microsoft.Extensions.Logging` package for logging.
 
 ## Architecture Patterns
 
+- Prefer Volatility-Based Decomposition (VBD) for building scalable and maintainable applications.
+  
 ### Volatility-Based Decomposition
 
 - **Manager Classes**: Use for workflow activities.
@@ -335,16 +369,20 @@
 
 #### Communication Restrictions
 
-- Clients can only call Managers.
-- A client can call more than one Manager.
+- Clients can communicate with Managers.
+- Clients can not communicate with Engines or Accessors.
+- Managers can communicate with Engines and Accessors.
+- Managers can not communicate with Clients or other Managers.
+- When a manager needs to communicate with another manager, it should do so through a message bus to avoid any coupling between the managers.
 - Managers can call Engines and Accessors.
-- Managers can not call Clients or other Managers.
 - Engines can call Accessors.
 - Engines can not call Clients, Managers or other Engines.
+- Accessors are the only way to interact with Data persistence.
 - Accessors can not call Clients, Managers or Engines.
-- Accessors are the only way to interact with Data objects.
+- Accessors can interact with the file system, databases, or external services such as remote APIs.
 
 #### Cross-Cutting Concerns
+- By definition, cross-cutting concerns are aspects of a program that affect multiple modules. These concerns are often difficult to separate from the rest of the system. Examples include logging, security, and error handling.  These libraries and utilities may be used by any component in the ecosystem.
 
 ##### Logging and Monitoring
 - Implement centralized logging using a framework like Serilog or NLog.
@@ -386,7 +424,7 @@
 - Ensure that a series of operations are completed successfully as a unit, maintaining data integrity.
 - Use transactions in Entity Framework Core to ensure atomicity of operations.
 
-### Unit of Work Pattern
+## Unit of Work Pattern
 - Implement the Unit of Work pattern to manage transactions and ensure data consistency.
     ```csharp
     public interface IUnitOfWork : IDisposable
@@ -431,8 +469,7 @@
     ```
 
 
-### Saga Pattern
-
+## Saga Pattern
 - Use the Saga pattern to manage long-running transactions and ensure data consistency across multiple services.
 - Implement compensating transactions to undo changes if part of the transaction fails.
     ```csharp
